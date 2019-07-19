@@ -1,0 +1,117 @@
+﻿Create an empty solution
+then add an empty asp.net web api to he project
+add the following package to it.
+
+Install-Package Microsoft.AspNet.Identity.Owin -Version 2.1.0
+Install-Package Microsoft.AspNet.Identity.EntityFramework -Version 2.1.0
+Install-Package Microsoft.Owin.Host.SystemWeb -Version 3.0.0
+Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.2.2
+Install-Package Microsoft.Owin.Security.OAuth -Version 3.0.0
+Install-Package Microsoft.Owin.Cors -Version 3.0.0
+
+ add new folder named “Infrastructure” to our project then add new class named “ApplicationUser” with the following code
+  public class ApplicationUser : IdentityUser
+    {
+        [Required]
+        [MaxLength(100)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string LastName { get; set; }
+
+        [Required]
+        public byte Level { get; set; }
+
+        [Required]
+        public DateTime JoinDate { get; set; }
+
+    }
+
+Create a ApplicationDbContext 
+ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    {
+        public ApplicationDbContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
+        {
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
+        }
+ 
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+ 
+    }
+
+
+add connection string
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=.\sqlexpress;Initial Catalog=AspNetIdentity;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+enable-migrations
+add-migration InitialCreate 
+
+add seed data for a manager 
+
+update-database
+
+
+Now to implement the “UserManager” class, add new file named “ApplicationUserManager” under folder “Infrastructure”
+
+Use the data to test a post request to the api by making a post request to the endpoint.
+
+{
+	"Email": "stan@gmail.com",
+	"UserName": "stanleyyy",
+	"Password": "MySimplePass**"
+	"ConfirmPassword": "MySimplePass**",
+	"FirstName": "Stan",
+	"LastName": "Queen"
+}
+
+add accept and content-type in the header section and the json code above in the raw tab.
+We can create a user as well as get a collection or list of users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
